@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Runebound Saga — Godot pixel RPG</title>
+<meta name="description" content="Runebound Saga: an original Godot 4 pixel-art turn-based party RPG and dungeon crawler. Play free in your browser.">
+<link rel="icon" href="icon.svg">
+<style>
+:root{--bg:#0d0a17;--panel:#1b1430;--edge:#5a4890;--gold:#ffd36b;--ink:#f2ead8;--dim:#a89cc0;--vio:#b07cff}
+*{box-sizing:border-box}html,body{margin:0;overflow-x:hidden}
+body{background:radial-gradient(ellipse at top,#2a1846 0,var(--bg) 60%);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--gold)}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+header{text-align:center;padding:48px 0 28px}
+.logo{font:900 clamp(38px,9vw,72px)/1 Georgia,serif;letter-spacing:.06em;color:var(--gold);text-shadow:4px 4px 0 #3a1a6a;margin:0}
+.sub{letter-spacing:.5em;color:#c9b0ff;margin:6px 0 18px;font-size:14px}
+.tag{color:var(--dim);max-width:620px;margin:0 auto 26px}
+.play{display:inline-block;background:linear-gradient(#ffe08a,#e8a83a);color:#2a1406;font-weight:800;font-size:22px;padding:16px 36px;border-radius:10px;text-decoration:none;box-shadow:0 6px 0 #8a4a14,0 0 40px #ffb34766;transition:transform .1s}
+.play:hover{transform:translateY(-2px)}.play:active{transform:translateY(3px);box-shadow:0 3px 0 #8a4a14}
+.small{font-size:13px;color:var(--dim);margin-top:12px}
+canvas#art{display:block;margin:28px auto 0;width:min(100%,520px);height:auto;image-rendering:pixelated}
+h2{color:var(--gold);font:700 26px Georgia,serif;margin:44px 0 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card{background:var(--panel);border:2px solid var(--edge);border-radius:8px;padding:14px 16px}
+.card b{color:var(--gold)}.card p{margin:6px 0 0;color:var(--dim);font-size:14px}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.shots img{width:100%;border:2px solid var(--edge);border-radius:8px;display:block}
+table{width:100%;border-collapse:collapse;font-size:14px}td{padding:6px 8px;border-bottom:1px solid #2e2450;vertical-align:top}td:first-child{color:var(--gold);white-space:nowrap}
+footer{text-align:center;color:var(--dim);padding:40px 0 50px;font-size:14px}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1 class="logo">RUNEBOUND</h1>
+  <div class="sub">— S A G A —</div>
+  <p class="tag">Recruit a company of four heroes, forge legendary rune-weapons and fight your way down five deadly dungeon floors in this original turn-based pixel RPG, made in Godot 4.</p>
+  <a class="play" href="play/">&#9654; Play in browser</a>
+  <div class="small">Free · no install · keyboard, mouse or touch · progress saves automatically</div>
+  <canvas id="art" width="130" height="40" aria-label="The six hero classes in pixel art"></canvas>
+</header>
+<main class="wrap">
+  <h2>Features</h2>
+  <div class="grid">
+    <div class="card"><b>6 hero classes</b><p>Runeknight, Stormcaller, Thornwarden, Shadeblade, Lumen Cleric and Gearsmith — each with 4 skills and its own element.</p></div>
+    <div class="card"><b>Initiative timeline</b><p>Speed decides how often you act. See the next 8 turns and plan around Haste, Slow and Freeze.</p></div>
+    <div class="card"><b>Break &amp; combo</b><p>Hit weaknesses to shatter enemy guards, chain hits for bonus damage and unleash a party-wide Rune Burst.</p></div>
+    <div class="card"><b>Blacksmith forge</b><p>Forge weapons from materials, upgrade them +1 to +5, socket elemental runes and salvage the rest.</p></div>
+    <div class="card"><b>Loot with affixes</b><p>Five rarities from Common to Legendary, with rolled affixes like lifesteal, crit, speed and break power.</p></div>
+    <div class="card"><b>5 dungeon floors</b><p>Procedural grid dungeons with fog of war, chests, hidden traps, healing fountains, roaming monsters and a boss on every floor.</p></div>
+  </div>
+  <h2>Screenshots</h2>
+  <div class="shots">
+    <img src="docs/screenshots/title.jpg" alt="Title screen" loading="lazy">
+    <img src="docs/screenshots/battle.jpg" alt="Turn-based battle" loading="lazy">
+    <img src="docs/screenshots/dungeon.jpg" alt="Dungeon exploration" loading="lazy">
+    <img src="docs/screenshots/forge.jpg" alt="Blacksmith forge" loading="lazy">
+  </div>
+  <h2>Controls</h2>
+  <table>
+    <tr><td>Move</td><td>Arrow keys / WASD, tap a tile, or the on-screen pad</td></tr>
+    <tr><td>Menus</td><td>Click or tap; arrows + Enter/Space also work</td></tr>
+    <tr><td>Targets</td><td>Tap an enemy or ally, or arrows + Enter</td></tr>
+    <tr><td>Pause / back</td><td>Esc or P, or the II button</td></tr>
+  </table>
+  <p class="small">Tip: on phones it also works in portrait, but landscape gives the battle screen more room.</p>
+</main>
+<footer>Made by Jaineil Rana (JaKing) · part of <a href="https://github.com/JaiGod">JaiGod</a> · <a href="https://github.com/JaiGod/runebound-saga">Source on GitHub</a></footer>
+<script>
+// tiny pixel heroes drawn in code
+(function(){const c=document.getElementById('art').getContext('2d');
+const P=[["#b04a3a","#c8ccd8"],["#3a5ac8","#2a3a8a"],["#4a8a3a","#3a6a2a"],["#3a3048","#241c30"],["#f0ead8","#e8c86a"],["#c87a3a","#5a3a2a"]];
+P.forEach((p,i)=>{const x=4+i*21,y=6;c.fillStyle="#140c1c";c.fillRect(x+3,y,10,26);c.fillRect(x+1,y+10,14,10);
+c.fillStyle=p[1];c.fillRect(x+4,y+1,8,4);c.fillStyle="#f0c09a";c.fillRect(x+5,y+4,6,5);c.fillStyle="#140c1c";c.fillRect(x+6,y+6,1,1);c.fillRect(x+9,y+6,1,1);
+c.fillStyle=p[0];c.fillRect(x+4,y+10,8,8);c.fillStyle="#ffd36b";c.fillRect(x+4,y+15,8,1);c.fillStyle="#2a1f44";c.fillRect(x+5,y+19,2,6);c.fillRect(x+9,y+19,2,6)})})();
+</script>
+</body>
+</html>
