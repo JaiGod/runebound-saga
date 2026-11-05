@@ -1,0 +1,43 @@
+; Engine configuration file.
+; Runebound Saga — Godot 4.3
+
+config_version=5
+
+[application]
+
+config/name="Runebound Saga"
+config/description="A pixel-art turn-based party RPG and dungeon crawler."
+config/version="1.0.0"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.05, 0.04, 0.09, 1)
+boot_splash/show_image=false
+
+[autoload]
+
+Data="*res://scripts/Data.gd"
+Game="*res://scripts/Game.gd"
+Sfx="*res://scripts/Sfx.gd"
+
+[display]
+
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
+
+[gui]
+
+theme/default_font_size=12
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.05, 0.04, 0.09, 1)
+textures/vram_compression/import_etc2_astc=true
