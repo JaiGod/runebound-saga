@@ -1,0 +1,63 @@
+name: Build Web & Deploy to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up export templates
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/4.3.stable ~/.local/share/godot/export_templates/ || true
+      - name: Import project
+        run: godot --headless --import || true
+      - name: Export Web (threads off, Compatibility renderer)
+        run: |
+          mkdir -p build/web/play
+          godot --headless --verbose --export-release "Web" build/web/play/index.html
+          ls -la build/web/play
+      - name: Add landing page
+        run: |
+          cp web/index.html build/web/index.html
+          cp icon.svg build/web/icon.svg
+          cp -r docs build/web/docs || true
+          touch build/web/.nojekyll
+      - name: Capture screenshots (Xvfb, optional)
+        continue-on-error: true
+        run: |
+          apt-get update -qq && apt-get install -y -qq xvfb xauth libgl1-mesa-dri libglx-mesa0 > /dev/null
+          mkdir -p build/web/shots
+          export SHOTS="$PWD/build/web/shots"
+          timeout 180 xvfb-run -a -s "-screen 0 1280x720x24" godot --rendering-driver opengl3 --resolution 1280x720 res://tests/Shots.tscn || true
+          timeout 180 xvfb-run -a -s "-screen 0 1280x1000x24" godot --rendering-driver opengl3 --resolution 390x844 res://tests/PortraitShots.tscn || true
+          rm -f build/web/shots/*.png
+          ls -la build/web/shots
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+  deploy:
+    needs: export
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
